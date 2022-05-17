@@ -6,6 +6,69 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+  role     Role   @default(USER)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  Employee Employee[]
+
+  @@map("users")
+}
+
+enum Role {
+  USER
+  ADMIN
+  MASTER
+}
+
+model Employee {
+  id           String    @id @default(uuid())
+  name         String
+  email        String    @unique
+  isActive     Boolean   @default(true)
+  birthday     DateTime? @db.Timestamp()
+  vacation     DateTime? @db.Timestamp()
+  phone        String?
+  position     String?
+  avatar_url   String?
+  address      String?
+  a_complement String?
+  a_cep        String?
+  a_city       String?
+  a_state      String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String @unique
+
+  PayStub PayStub[]
+
+  @@map("employees")
+}
+
+model PayStub {
+  id       String   @id @default(uuid())
+  date     DateTime @default(now())
+  file_url String
+  notes    String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  employee    Employee @relation(fields: [employee_id], references: [id])
+  employee_id String
+
+  @@map("pay_stubs")
 }
