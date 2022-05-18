@@ -13,6 +13,7 @@ export class PrismaUserRepository implements IUserRepository {
         email: true,
         name: true,
         role: true,
+        isActive: true,
         created_at: true,
         updated_at: true,
       },
@@ -49,6 +50,7 @@ export class PrismaUserRepository implements IUserRepository {
         email: true,
         name: true,
         role: true,
+        isActive: true,
         created_at: true,
         updated_at: true,
       },
@@ -71,6 +73,7 @@ export class PrismaUserRepository implements IUserRepository {
         email: true,
         name: true,
         role: true,
+        isActive: true,
         created_at: true,
         updated_at: true,
       },
@@ -93,15 +96,19 @@ export class PrismaUserRepository implements IUserRepository {
     args: TFindManyUsersArgs
   ): Promise<Omit<IUser, "password">[]> {
     const users: Omit<IUser, "password">[] = await prismaClient.user.findMany({
-      take: args.take,
-      skip: args.take,
+      take: args.take || undefined,
+      skip: args.skip || undefined,
       select: {
         id: true,
         email: true,
         name: true,
         role: true,
+        isActive: true,
         created_at: true,
         updated_at: true,
+      },
+      where: {
+        role: "ADMIN",
       },
     });
 

@@ -10,6 +10,8 @@ export interface IUserRepository {
 
   findUserById(id: string): Promise<Omit<IUser, "password">>;
 
+  findUserByIdWithPassword(id: string): Promise<IUser>;
+
   createUser(
     data: Omit<IUser, "created_at" | "updated_at">
   ): Promise<Omit<IUser, "password">>;
