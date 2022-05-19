@@ -4,7 +4,7 @@ import { createAdminUserController } from "./CreateAdminUser";
 import { deleteAdminUserController } from "./DeleteAdminUser";
 import { getAdminUserByIdController } from "./GetAdminUserById";
 import { listAdminUsersController } from "./ListAdminUsers";
-import { updateAdminUserController } from "./UpdateUser";
+import { updateAdminUserController } from "./UpdateAdminUser";
 
 const userRoutes: Router = Router();
 

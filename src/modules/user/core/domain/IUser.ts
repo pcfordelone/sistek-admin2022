@@ -4,7 +4,7 @@ export interface IUser {
   email: string;
   password: string;
   isActive: boolean;
-  role: "USER" | "ADMIN" | "MASTER";
+  role: string;
   created_at: Date;
   updated_at: Date;
 }

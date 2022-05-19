@@ -1,5 +1,4 @@
-export interface IUpdateAdminUserRequest {
+export interface UpdateUserRequest {
   name?: string;
   email?: string;
-  isActive?: boolean;
 }

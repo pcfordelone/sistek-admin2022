@@ -4,7 +4,7 @@ import { IUserRepository, TFindManyUsersArgs } from "./IUserRepository";
 
 export class PrismaUserRepository implements IUserRepository {
   async findUserById(id: string): Promise<Omit<IUser, "password">> {
-    const result: Omit<IUser, "password"> = await prismaClient.user.findUnique({
+    const result: Omit<IUser, "password"> = await prismaClient.user.findFirst({
       where: {
         id: id,
       },
@@ -23,7 +23,7 @@ export class PrismaUserRepository implements IUserRepository {
   }
 
   async findUserByIdWithPassword(id: string): Promise<IUser> {
-    const result: IUser = await prismaClient.user.findUnique({
+    const result: IUser = await prismaClient.user.findFirst({
       where: {
         id: id,
       },
