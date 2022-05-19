@@ -37,8 +37,8 @@ model Employee {
   name         String
   email        String    @unique
   isActive     Boolean   @default(true)
-  birthday     DateTime? @db.Timestamp()
-  vacation     DateTime? @db.Timestamp()
+  birthday     DateTime?
+  vacation     DateTime?
   phone        String?
   position     String?
   avatar_url   String?
