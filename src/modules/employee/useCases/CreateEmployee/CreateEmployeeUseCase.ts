@@ -1,8 +1,9 @@
-import { IUserRepository } from "./../../../user/core/repository/IUserRepository";
 import { IEmployeeRepository } from "../../core/repository/IEmployeeRepository";
 import { ICreateEmployeeRequest } from "./CreateEmployeeDTO";
 import { CreateUserUseCase } from "../../../user/useCases/CreateUser/CreateUserUseCase";
 import { IUser } from "../../../user/core/domain/IUser";
+import { EmployeeEntity } from "../../core/domain/Employee";
+import { IEmployee } from "../../core/domain/IEmployee";
 
 export class CreateEmployeeUseCase {
   constructor(
@@ -10,14 +11,30 @@ export class CreateEmployeeUseCase {
     private createUserUseCase: CreateUserUseCase
   ) {}
 
-  async execute(data: ICreateEmployeeRequest) {
+  async execute({
+    name,
+    email,
+    isActive,
+    address,
+    a_cep,
+    a_city,
+    a_complement,
+    a_state,
+    avatar_url,
+    birthday,
+    vacation,
+    phone,
+    position,
+    password,
+    confirm_password,
+  }: ICreateEmployeeRequest) {
     const user: Omit<IUser, "password"> | Error =
       await this.createUserUseCase.execute({
-        name: data.name,
-        email: data.email,
+        name: name,
+        email: email,
         isActive: true,
-        password: data.password,
-        confirm_password: data.confirm_password,
+        password: password,
+        confirm_password: confirm_password,
         role: "USER",
       });
 
@@ -26,22 +43,31 @@ export class CreateEmployeeUseCase {
     }
 
     const employeeExists = await this.employeeRepository.findEmployeeByEmail(
-      data.email
+      email
     );
 
     if (employeeExists) {
       throw new Error("Employee already exists with this email");
     }
 
-    delete data.password;
-    delete data.confirm_password;
-
-    const employee_data = {
-      ...data,
+    const employee: IEmployee = new EmployeeEntity({
+      name,
+      email,
+      isActive,
+      address,
+      a_cep,
+      a_city,
+      a_complement,
+      a_state,
+      avatar_url,
+      birthday,
+      vacation,
+      phone,
+      position,
       user_id: user.id,
-    };
+    });
 
-    const result = await this.employeeRepository.createEmployee(employee_data);
+    const result = await this.employeeRepository.createEmployee(employee);
 
     return result;
   }

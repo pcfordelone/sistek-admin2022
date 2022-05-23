@@ -10,12 +10,29 @@ export class UpdateEmployeeUseCase {
     private updateUserUseCase: UpdateUserUseCase
   ) {}
 
-  async execute(id: string, data: UdpateEmployeeRequest) {
+  async execute(
+    id: string,
+    {
+      name,
+      email,
+      isActive,
+      address,
+      a_cep,
+      a_city,
+      a_complement,
+      a_state,
+      avatar_url,
+      birthday,
+      vacation,
+      phone,
+      position,
+    }: UdpateEmployeeRequest
+  ) {
     const oldEmployee = await this.employeeRepository.findEmployeeById(id);
 
     const user = await this.updateUserUseCase.execute(oldEmployee.user_id, {
-      name: data.name || undefined,
-      email: data.email || undefined,
+      name: name,
+      email: email,
     });
 
     if (user instanceof Error) {
@@ -26,13 +43,13 @@ export class UpdateEmployeeUseCase {
       throw new Error("Invalid employee.");
     }
 
-    if (data.name && data.name.length < 3) {
+    if (name && name.length < 3) {
       throw new Error("Name is required and must be longer than 3 characters!");
     }
 
-    if (data.email) {
+    if (email) {
       const verifyEmailemployee: IEmployee =
-        await this.employeeRepository.findEmployeeByEmail(data.email);
+        await this.employeeRepository.findEmployeeByEmail(email);
 
       if (
         verifyEmailemployee &&
@@ -44,19 +61,21 @@ export class UpdateEmployeeUseCase {
 
     const employee_data = {
       ...oldEmployee,
-      name: data.name,
-      email: data.email,
-      vacation: new Date(data.vacation),
-      birthday: new Date(data.birthday),
-      phone: data.phone,
-      position: data.position,
-      avatar_url: data.avatar_url,
-      address: data.address,
-      a_complement: data.a_complement,
-      a_cep: data.a_cep,
-      a_city: data.a_city,
-      a_state: data.a_state,
+      name,
+      email,
+      vacation: new Date(vacation),
+      birthday: new Date(birthday),
+      isActive,
+      phone,
+      position,
+      avatar_url,
+      address,
+      a_complement,
+      a_cep,
+      a_city,
+      a_state,
     };
+
     const employee = new EmployeeEntity(employee_data, id);
 
     const result: IEmployee = await this.employeeRepository.updateEmployee(
