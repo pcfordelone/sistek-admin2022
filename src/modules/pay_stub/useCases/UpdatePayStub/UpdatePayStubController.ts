@@ -6,13 +6,14 @@ export class UpdatePayStubController {
   constructor(private updatePayStubUseCase: UpdatePayStubUseCase) {}
 
   async handle(request: Request, response: Response): Promise<Response> {
-    const { date, file_url, employee_id, notes } = request.body;
+    const { file } = request;
+    const { date, employee_id, notes } = request.body;
     const { id } = request.params;
 
     try {
       const result: IPayStub = await this.updatePayStubUseCase.execute(id, {
         date,
-        file_url,
+        file_url: file.filename,
         employee_id,
         notes,
       });

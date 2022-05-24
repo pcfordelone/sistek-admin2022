@@ -4,6 +4,7 @@ import { PayStubEntity } from "../../core/domain/PayStub";
 import { IEmployeeRepository } from "../../../employee/core/repository/IEmployeeRepository";
 import { IPayStub } from "../../core/domain/IPayStub";
 import { IEmployee } from "../../../employee/core/domain/IEmployee";
+import { deleteFile } from "../../../../multer";
 export class UpdatePayStubUseCase {
   constructor(
     private payStubRepository: IPayStubRepository,
@@ -35,6 +36,12 @@ export class UpdatePayStubUseCase {
     if (!file_url) {
       throw new Error("File is required");
     }
+
+    const deleteImage = await deleteFile(
+      `./uploads/pay_stubs/${payStub.file_url}`
+    );
+
+    console.log(deleteImage);
 
     const entity = new PayStubEntity(
       {

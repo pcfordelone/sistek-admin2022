@@ -1,4 +1,5 @@
 import express from "express";
+import multer, { Multer } from "multer";
 import { openRoute } from "./router";
 import cors from "cors";
 import { userRoutes } from "./modules/user/useCases/routes";
@@ -14,9 +15,13 @@ app.use(cors());
 app.use(express.json());
 
 app.use(openRoute);
+
 app.use("/auth", authRoutes);
+
 app.use("/users", ensureAuthenticated, ensureIsAdminUser, userRoutes);
+
 app.use("/employees", ensureAuthenticated, ensureIsAdminUser, employeesRoutes);
+
 app.use("/pay_stubs", ensureAuthenticated, ensureIsAdminUser, payStubRoutes);
 
 export { app };
