@@ -23,6 +23,9 @@ export class AuthenticateUserUseCase {
 
     const token = await this.authenticateProvider.authenticate(user);
 
-    return { token };
+    return {
+      token,
+      role: user.role,
+    };
   }
 }

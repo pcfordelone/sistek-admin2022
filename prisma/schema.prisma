@@ -39,6 +39,9 @@ model Employee {
   isActive     Boolean   @default(true)
   birthday     DateTime?
   vacation     DateTime?
+  since        DateTime?
+  rg           String?
+  cpf          String?
   phone        String?
   position     String?
   avatar_url   String?

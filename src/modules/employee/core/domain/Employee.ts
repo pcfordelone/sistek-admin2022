@@ -8,6 +8,9 @@ export class EmployeeEntity {
   isActive: boolean;
   birthday?: Date;
   vacation?: Date;
+  since?: Date;
+  rg?: string;
+  cpf?: string;
   phone?: string;
   position?: string;
   avatar_url?: string;

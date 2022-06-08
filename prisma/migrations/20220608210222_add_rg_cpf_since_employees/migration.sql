@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE `employees` ADD COLUMN `cpf` VARCHAR(191) NULL,
+    ADD COLUMN `rg` VARCHAR(191) NULL,
+    ADD COLUMN `since` DATETIME(3) NULL;
