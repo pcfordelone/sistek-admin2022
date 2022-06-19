@@ -1,9 +1,13 @@
 import { IEmployeeRepository } from "../../core/repository/IEmployeeRepository";
+import { IEmployee } from "../../core/domain/IEmployee";
 export class ChangeStatusEmployeeUseCase {
   constructor(private employeeRepository: IEmployeeRepository) {}
 
   async execute(id: string) {
-    const employee = await this.employeeRepository.findEmployeeById(id);
+    const employee: IEmployee = await this.employeeRepository.findEmployeeById(
+      id,
+      false
+    );
 
     if (!employee) {
       throw new Error("Invalid Employee");

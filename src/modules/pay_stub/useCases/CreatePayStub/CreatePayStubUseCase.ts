@@ -12,7 +12,8 @@ export class CreatePayStubUseCase {
 
   async execute({ date, employee_id, file_url, notes }: ICreatePayStubRequest) {
     const employeeExists = await this.employeeRepository.findEmployeeById(
-      employee_id
+      employee_id,
+      false
     );
 
     if (!employeeExists) {

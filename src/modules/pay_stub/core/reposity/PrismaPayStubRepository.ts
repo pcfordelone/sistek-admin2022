@@ -1,5 +1,4 @@
-import { Prisma } from "@prisma/client";
-import { prismaClient } from "../../../../prisma";
+import { prismaClient } from "@config/prisma";
 import { IPayStub } from "../domain/IPayStub";
 import { IPayStubRepository } from "./IPayStubRepository";
 
@@ -30,6 +29,7 @@ export class PrismaPayStubRepository implements IPayStubRepository {
 
     return result;
   }
+
   async createPayStub(
     data: Omit<IPayStub, "created_at" | "updated_at">
   ): Promise<IPayStub> {
@@ -39,6 +39,7 @@ export class PrismaPayStubRepository implements IPayStubRepository {
 
     return result;
   }
+
   async updatePayStub(
     id: string,
     data: Omit<IPayStub, "id" | "created_at" | "updated_at">

@@ -5,7 +5,8 @@ export class DeleteEmployeeUseCase {
 
   async execute(id: string) {
     const employee: IEmployee = await this.employeeRepository.findEmployeeById(
-      id
+      id,
+      false
     );
 
     if (!employee) {

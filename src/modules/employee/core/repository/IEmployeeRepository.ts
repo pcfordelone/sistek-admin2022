@@ -8,7 +8,11 @@ export type TFindManyEmployeesArgs = {
 export interface IEmployeeRepository {
   findEmployeeByEmail(email: string): Promise<IEmployee>;
 
-  findEmployeeById(id: string): Promise<IEmployee>;
+  findEmployeeById(
+    id: string,
+    payStub?: boolean,
+    user?: boolean
+  ): Promise<IEmployee>;
 
   createEmployee(
     data: Omit<IEmployee, "created_at" | "updated_at">

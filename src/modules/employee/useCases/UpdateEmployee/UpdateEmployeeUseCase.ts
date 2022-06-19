@@ -31,7 +31,10 @@ export class UpdateEmployeeUseCase {
       position,
     }: UdpateEmployeeRequest
   ) {
-    const oldEmployee = await this.employeeRepository.findEmployeeById(id);
+    const oldEmployee = await this.employeeRepository.findEmployeeById(
+      id,
+      false
+    );
 
     const user = await this.updateUserUseCase.execute(oldEmployee.user_id, {
       name: name,
@@ -66,9 +69,9 @@ export class UpdateEmployeeUseCase {
       ...oldEmployee,
       name,
       email,
-      vacation: new Date(vacation),
-      birthday: new Date(birthday),
-      since: new Date(since),
+      vacation: vacation ? new Date(vacation) : undefined,
+      birthday: birthday ? new Date(birthday) : undefined,
+      since: since ? new Date(since) : undefined,
       isActive,
       rg,
       cpf,

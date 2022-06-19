@@ -1,5 +1,5 @@
-import { User } from "@prisma/client";
 import { Request, Response } from "express";
+import { IUser } from "../../core/domain/IUser";
 import { ChangeStatusAdminUserUseCase } from "./ChangeStatusAdminUserUseCase";
 
 export class ChangeStatusAdminUserController {
@@ -11,7 +11,7 @@ export class ChangeStatusAdminUserController {
     const id: string = request.params.id;
 
     try {
-      const result: Omit<User, "password"> =
+      const result: Omit<IUser, "password"> =
         await this.changeStatusAdminUserUseCase.execute(id);
 
       return response.status(200).json(result);

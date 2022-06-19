@@ -1,4 +1,4 @@
-import { prismaClient } from "../../../../prisma";
+import { prismaClient } from "@config/prisma";
 import { IUser } from "../domain/IUser";
 import { IUserRepository, TFindManyUsersArgs } from "./IUserRepository";
 
@@ -16,6 +16,7 @@ export class PrismaUserRepository implements IUserRepository {
         isActive: true,
         created_at: true,
         updated_at: true,
+        employees: true,
       },
     });
 
@@ -67,7 +68,7 @@ export class PrismaUserRepository implements IUserRepository {
       where: {
         id: id,
       },
-      data: data,
+      data,
       select: {
         id: true,
         email: true,

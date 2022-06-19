@@ -1,4 +1,4 @@
-import { prismaClient } from "../../../../prisma";
+import { prismaClient } from "@config/prisma";
 import { IEmployee } from "../domain/IEmployee";
 import {
   IEmployeeRepository,
@@ -7,19 +7,43 @@ import {
 
 export class PrismaEmployeeRepository implements IEmployeeRepository {
   async findEmployeeByEmail(email: string): Promise<IEmployee> {
-    const result = await prismaClient.employee.findUnique({
+    const result = await prismaClient.employee.findFirst({
       where: {
         email: email,
+      },
+      include: {
+        PayStub: true,
       },
     });
 
     return result;
   }
 
-  async findEmployeeById(id: string): Promise<IEmployee> {
+  async findEmployeeById(
+    id: string,
+    payStub?: boolean,
+    user?: boolean
+  ): Promise<IEmployee> {
     const result = await prismaClient.employee.findFirst({
       where: {
         id: id,
+      },
+      include: {
+        PayStub: payStub || false,
+        user: user || false,
+      },
+    });
+
+    return result;
+  }
+
+  async findEmployeeByIdWithPayStub(id: string): Promise<IEmployee> {
+    const result = await prismaClient.employee.findFirst({
+      where: {
+        id: id,
+      },
+      include: {
+        PayStub: true,
       },
     });
 
@@ -68,6 +92,7 @@ export class PrismaEmployeeRepository implements IEmployeeRepository {
       skip: args.skip || undefined,
       include: {
         user: true,
+        PayStub: true,
       },
     });
 

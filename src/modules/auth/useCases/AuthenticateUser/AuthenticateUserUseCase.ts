@@ -12,13 +12,13 @@ export class AuthenticateUserUseCase {
     const user = await this.userRepository.findUserByEmail(email);
 
     if (!user) {
-      throw new Error("User invalid!");
+      throw new Error("User or password invalid!");
     }
 
     const checkPassword = await bcrypt.compare(password, user.password);
 
     if (!checkPassword) {
-      throw new Error("Wrong Password!");
+      throw new Error("User or password invalid!");
     }
 
     const token = await this.authenticateProvider.authenticate(user);
@@ -26,6 +26,8 @@ export class AuthenticateUserUseCase {
     return {
       token,
       role: user.role,
+      username: user.name,
+      user_id: user.id,
     };
   }
 }

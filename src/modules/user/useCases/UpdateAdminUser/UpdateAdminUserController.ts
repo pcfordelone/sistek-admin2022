@@ -1,6 +1,7 @@
 import { User } from "@prisma/client";
 import { Request, Response } from "express";
 import { UpdateAdminUserUseCase } from "./UpdateAdminUserUseCase";
+import { IUser } from "../../core/domain/IUser";
 
 export class UpdateAdminUserController {
   constructor(private updateAdminUserUseCase: UpdateAdminUserUseCase) {}
@@ -10,7 +11,7 @@ export class UpdateAdminUserController {
     const id: string = request.params.id;
 
     try {
-      const result: Omit<User, "password"> =
+      const result: Omit<IUser, "password"> =
         await this.updateAdminUserUseCase.execute(id, {
           name,
           email,
