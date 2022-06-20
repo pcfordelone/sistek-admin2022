@@ -1,16 +1,17 @@
-import multer from "multer";
-import { json, Request, Response } from "express";
-import { CreatePayStubUseCase } from "./CreatePayStubUseCase";
+import { Request, Response } from "express";
+import { injectable, container } from "tsyringe";
+import { CreatePayStubUseCase } from "@pay_stub/useCases";
 
+@injectable()
 export class CreatePayStubController {
-  constructor(private createPayStubUseCase: CreatePayStubUseCase) {}
-
   async handle(request: Request, response: Response): Promise<Response> {
     const { file } = request;
     const { date, employee_id, notes } = request.body;
 
+    const createPayStubUseCase = container.resolve(CreatePayStubUseCase);
+
     try {
-      const result = await this.createPayStubUseCase.execute({
+      const result = await createPayStubUseCase.execute({
         date: date,
         file_url: file.filename,
         employee_id: employee_id,

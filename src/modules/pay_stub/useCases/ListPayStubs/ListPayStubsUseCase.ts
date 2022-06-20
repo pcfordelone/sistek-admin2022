@@ -1,9 +1,15 @@
-import { IPayStubRepository } from "../../core/reposity/IPayStubRepository";
-import { IEmployeeRepository } from "../../../employee/core/repository/IEmployeeRepository";
-import { IEmployee } from "../../../employee/core/domain/IEmployee";
+import { inject, injectable } from "tsyringe";
+
+import { IPayStubRepository } from "@pay_stub/core";
+import { IEmployeeRepository } from "@employee/core";
+import { IEmployee } from "@employee/core";
+
+@injectable()
 export class ListPayStubsUseCase {
   constructor(
+    @inject("PayStubRepository")
     private payStubRepository: IPayStubRepository,
+    @inject("EmployeRepository")
     private employeeRepository: IEmployeeRepository
   ) {}
 

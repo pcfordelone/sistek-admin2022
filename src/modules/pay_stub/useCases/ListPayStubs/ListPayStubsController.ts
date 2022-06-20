@@ -1,14 +1,17 @@
 import { Request, Response } from "express";
-import { ListPayStubsUseCase } from "./ListPayStubsUseCase";
+import { injectable, container } from "tsyringe";
 
+import { ListPayStubsUseCase } from "@pay_stub/useCases";
+
+@injectable()
 export class ListPayStubsController {
-  constructor(private listPayStubsUseCase: ListPayStubsUseCase) {}
-
   async handle(request: Request, response: Response): Promise<Response> {
     const { year, month, order, employee_id } = request.query;
 
+    const listPayStubsUseCase = container.resolve(ListPayStubsUseCase);
+
     try {
-      const result = await this.listPayStubsUseCase.execute(
+      const result = await listPayStubsUseCase.execute(
         year as string,
         month as string,
         order as string,

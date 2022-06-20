@@ -1,4 +1,5 @@
-import { IPayStub } from "../domain/IPayStub";
+import { IPayStub } from "@pay_stub/core";
+
 export interface IPayStubRepository {
   createPayStub(
     data: Omit<IPayStub, "created_at" | "updated_at">

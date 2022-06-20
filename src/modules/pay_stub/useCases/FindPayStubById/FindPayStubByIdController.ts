@@ -1,15 +1,18 @@
 import { Request, Response } from "express";
-import { IPayStub } from "../../core/domain/IPayStub";
-import { FindPayStubByIdUseCase } from "./FindPayStubByIdUseCase";
+import { injectable, container } from "tsyringe";
 
+import { IPayStub } from "@pay_stub/core";
+import { FindPayStubByIdUseCase } from "@pay_stub/useCases";
+
+@injectable()
 export class FindPayStubByIdController {
-  constructor(private findByIdPayStubUseCase: FindPayStubByIdUseCase) {}
-
   async handle(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
 
+    const findByIdPayStubUseCase = container.resolve(FindPayStubByIdUseCase);
+
     try {
-      const result: IPayStub = await this.findByIdPayStubUseCase.execute(id);
+      const result: IPayStub = await findByIdPayStubUseCase.execute(id);
 
       return response.status(200).json(result);
     } catch (error) {

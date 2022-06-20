@@ -1,6 +1,6 @@
 import { prismaClient } from "@config/prisma";
-import { IPayStub } from "../domain/IPayStub";
-import { IPayStubRepository } from "./IPayStubRepository";
+import { IPayStub } from "@pay_stub/core";
+import { IPayStubRepository } from "@pay_stub/core";
 
 export class PrismaPayStubRepository implements IPayStubRepository {
   async listPayStubs(

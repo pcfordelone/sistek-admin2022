@@ -1,4 +1,4 @@
-import { IPayStub } from "./IPayStub";
+import { IPayStub } from "@pay_stub/core";
 import { randomUUID } from "crypto";
 
 export class PayStubEntity {

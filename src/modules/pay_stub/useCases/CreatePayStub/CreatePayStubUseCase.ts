@@ -1,12 +1,18 @@
-import { ICreatePayStubRequest } from "./CreatePayStubDTO";
-import { IPayStubRepository } from "../../core/reposity/IPayStubRepository";
-import { PayStubEntity } from "../../core/domain/PayStub";
-import { IEmployeeRepository } from "../../../employee/core/repository/IEmployeeRepository";
-import { IPayStub } from "../../core/domain/IPayStub";
+import { inject, injectable } from "tsyringe";
 
+import { ICreatePayStubRequest } from "./CreatePayStubDTO";
+import { IPayStubRepository } from "@pay_stub/core";
+import { PayStubEntity } from "@pay_stub/core";
+import { IPayStub } from "@pay_stub/core";
+
+import { IEmployeeRepository } from "@employee/core";
+
+@injectable()
 export class CreatePayStubUseCase {
   constructor(
+    @inject("PayStubRepository")
     private payStubRepository: IPayStubRepository,
+    @inject("EmployeeRepository")
     private employeeRepository: IEmployeeRepository
   ) {}
 

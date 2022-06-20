@@ -1,13 +1,20 @@
-import { IPayStubRepository } from "../../core/reposity/IPayStubRepository";
+import { inject, injectable } from "tsyringe";
+
+import { deleteFile } from "@config/multer";
+
+import { IPayStubRepository } from "@pay_stub/core";
+import { PayStubEntity } from "@pay_stub/core";
+import { IPayStub } from "@pay_stub/core";
 import { IUpdatePayStubRequest } from "./UpdatePayStubDTO";
-import { PayStubEntity } from "../../core/domain/PayStub";
-import { IEmployeeRepository } from "../../../employee/core/repository/IEmployeeRepository";
-import { IPayStub } from "../../core/domain/IPayStub";
-import { IEmployee } from "../../../employee/core/domain/IEmployee";
-import { deleteFile } from "../../../../multer";
+import { IEmployeeRepository } from "@employee/core";
+import { IEmployee } from "@employee/core";
+
+@injectable()
 export class UpdatePayStubUseCase {
   constructor(
+    @inject("PayStubRepository")
     private payStubRepository: IPayStubRepository,
+    @inject("EmployeeRepository")
     private employeeRepository: IEmployeeRepository
   ) {}
 

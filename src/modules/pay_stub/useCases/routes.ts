@@ -1,42 +1,38 @@
-import { Request, Response, Router } from "express";
+import { Router } from "express";
 import multer, { Multer } from "multer";
-import { upload } from "../../../multer";
-
-import { createPayStubController } from "./CreatePayStub";
-import { deletePayStubController } from "./DeletePayStub";
-import { findPayStubByIdController } from "./FindPayStubById";
-import { listPayStubsController } from "./ListPayStubs";
-import { updatePayStubController } from "./UpdatePayStub";
+import { upload } from "@config/multer";
+import { container } from "tsyringe";
+import {
+  CreatePayStubController,
+  UpdatePayStubController,
+  DeletePayStubController,
+  FindPayStubByIdController,
+  ListPayStubsController,
+} from "@pay_stub/useCases";
 
 const payStubRoutes = Router();
 const uploadPayStub: Multer = multer(upload("pay_stubs"));
 
+const createPayStubController = container.resolve(CreatePayStubController);
+const updatePayStubController = container.resolve(UpdatePayStubController);
+const deletePayStubController = container.resolve(DeletePayStubController);
+const findPayStubByIdController = container.resolve(FindPayStubByIdController);
+const listPayStubsController = container.resolve(ListPayStubsController);
+
+payStubRoutes.delete("/:id", deletePayStubController.handle);
+payStubRoutes.get("/:id", findPayStubByIdController.handle);
+payStubRoutes.get("/", listPayStubsController.handle);
+
 payStubRoutes.post(
   "/",
   uploadPayStub.single("file"),
-  (request: Request, response: Response) => {
-    createPayStubController.handle(request, response);
-  }
+  createPayStubController.handle
 );
 
 payStubRoutes.put(
   "/:id",
   uploadPayStub.single("file"),
-  (request: Request, response: Response) => {
-    updatePayStubController.handle(request, response);
-  }
+  updatePayStubController.handle
 );
-
-payStubRoutes.delete("/:id", (request: Request, response: Response) => {
-  deletePayStubController.handle(request, response);
-});
-
-payStubRoutes.get("/:id", (request: Request, response: Response) => {
-  findPayStubByIdController.handle(request, response);
-});
-
-payStubRoutes.get("/", (request: Request, response: Response) => {
-  listPayStubsController.handle(request, response);
-});
 
 export { payStubRoutes };

@@ -1,15 +1,18 @@
 import { Request, Response } from "express";
-import { IPayStub } from "../../core/domain/IPayStub";
-import { DeletePayStubUseCase } from "./DeletePayStubUseCase";
+import { injectable, container } from "tsyringe";
 
+import { IPayStub } from "@pay_stub/core";
+import { DeletePayStubUseCase } from "@pay_stub/useCases";
+
+@injectable()
 export class DeletePayStubController {
-  constructor(private deletePayStubUseCase: DeletePayStubUseCase) {}
-
   async handle(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
 
+    const deletePayStubUseCase = container.resolve(DeletePayStubUseCase);
+
     try {
-      const result: IPayStub = await this.deletePayStubUseCase.execute(id);
+      const result: IPayStub = await deletePayStubUseCase.execute(id);
 
       return response.status(200).json(result);
     } catch (error) {

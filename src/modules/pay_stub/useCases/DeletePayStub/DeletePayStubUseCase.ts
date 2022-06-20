@@ -1,9 +1,15 @@
-import { IPayStubRepository } from "../../core/reposity/IPayStubRepository";
-import { IPayStub } from "../../core/domain/IPayStub";
-import { deleteFile } from "../../../../multer";
+import { inject, injectable } from "tsyringe";
 
+import { deleteFile } from "@config/multer";
+import { IPayStubRepository } from "@pay_stub/core";
+import { IPayStub } from "@pay_stub/core";
+
+@injectable()
 export class DeletePayStubUseCase {
-  constructor(private payStubRepository: IPayStubRepository) {}
+  constructor(
+    @inject("PayStubRepository")
+    private payStubRepository: IPayStubRepository
+  ) {}
 
   async execute(id: string) {
     const payStubExists: IPayStub =
