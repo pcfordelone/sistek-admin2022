@@ -1,7 +1,13 @@
-import { IEmployeeRepository } from "../../core/repository/IEmployeeRepository";
+import { inject, injectable } from "tsyringe";
 
+import { IEmployeeRepository } from "@employee/core";
+
+@injectable()
 export class ListEmployeesUseCase {
-  constructor(private employeeRepository: IEmployeeRepository) {}
+  constructor(
+    @inject("EmployeeRepository")
+    private employeeRepository: IEmployeeRepository
+  ) {}
 
   async execute(args?: { take?: number; skip?: number }) {
     const employees = await this.employeeRepository.findManyEmployees({

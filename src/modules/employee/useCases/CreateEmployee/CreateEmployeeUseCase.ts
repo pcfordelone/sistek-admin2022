@@ -1,12 +1,16 @@
-import { IEmployeeRepository } from "../../core/repository/IEmployeeRepository";
+import { IEmployeeRepository } from "@employee/core";
+import { EmployeeEntity } from "@employee/core";
+import { IEmployee } from "@employee/core";
 import { ICreateEmployeeRequest } from "./CreateEmployeeDTO";
-import { CreateUserUseCase } from "../../../user/useCases/CreateUser/CreateUserUseCase";
-import { IUser } from "../../../user/core/domain/IUser";
-import { EmployeeEntity } from "../../core/domain/Employee";
-import { IEmployee } from "../../core/domain/IEmployee";
 
+import { CreateUserUseCase } from "@user/useCases";
+import { IUser } from "@user/core";
+import { inject, injectable } from "tsyringe";
+
+@injectable()
 export class CreateEmployeeUseCase {
   constructor(
+    @inject("EmployeeRepository")
     private employeeRepository: IEmployeeRepository,
     private createUserUseCase: CreateUserUseCase
   ) {}

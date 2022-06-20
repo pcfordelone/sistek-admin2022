@@ -1,14 +1,17 @@
 import { Request, Response } from "express";
-import { FindEmployeeByIdUseCase } from "./FindEmployeeByIdUseCase";
+import { injectable, container } from "tsyringe";
 
+import { FindEmployeeByIdUseCase } from "@employee/useCases";
+
+@injectable()
 export class FindEmployeeByIdController {
-  constructor(private findEmployeeByIdUseCase: FindEmployeeByIdUseCase) {}
-
   async handle(request: Request, response: Response) {
     const { id } = request.params;
 
+    const findEmployeeByIdUseCase = container.resolve(FindEmployeeByIdUseCase);
+
     try {
-      const result = await this.findEmployeeByIdUseCase.execute(id);
+      const result = await findEmployeeByIdUseCase.execute(id);
 
       return response.status(200).json(result);
     } catch (error) {

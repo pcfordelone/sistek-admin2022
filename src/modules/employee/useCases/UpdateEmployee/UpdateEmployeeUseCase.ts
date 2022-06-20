@@ -1,11 +1,16 @@
-import { IEmployeeRepository } from "../../core/repository/IEmployeeRepository";
-import { UdpateEmployeeRequest } from "./UpdateEmployeeDTO";
-import { IEmployee } from "../../core/domain/IEmployee";
-import { EmployeeEntity } from "../../core/domain/Employee";
-import { UpdateUserUseCase } from "../../../user/useCases/UpdateUser/UpdateUserUseCase";
+import { inject, injectable } from "tsyringe";
 
+import { IEmployeeRepository } from "@employee/core";
+import { IEmployee } from "@employee/core";
+import { EmployeeEntity } from "@employee/core";
+
+import { UdpateEmployeeRequest } from "./UpdateEmployeeDTO";
+import { UpdateUserUseCase } from "@user/useCases";
+
+@injectable()
 export class UpdateEmployeeUseCase {
   constructor(
+    @inject("EmployeeRepository")
     private employeeRepository: IEmployeeRepository,
     private updateUserUseCase: UpdateUserUseCase
   ) {}

@@ -1,9 +1,6 @@
 import { prismaClient } from "@config/prisma";
-import { IEmployee } from "../domain/IEmployee";
-import {
-  IEmployeeRepository,
-  TFindManyEmployeesArgs,
-} from "./IEmployeeRepository";
+import { IEmployee } from "@employee/core";
+import { IEmployeeRepository, TFindManyEmployeesArgs } from "@employee/core";
 
 export class PrismaEmployeeRepository implements IEmployeeRepository {
   async findEmployeeByEmail(email: string): Promise<IEmployee> {
@@ -12,7 +9,7 @@ export class PrismaEmployeeRepository implements IEmployeeRepository {
         email: email,
       },
       include: {
-        PayStub: true,
+        pay_stubs: true,
       },
     });
 
@@ -29,7 +26,7 @@ export class PrismaEmployeeRepository implements IEmployeeRepository {
         id: id,
       },
       include: {
-        PayStub: payStub || false,
+        pay_stubs: payStub || false,
         user: user || false,
       },
     });
@@ -43,7 +40,7 @@ export class PrismaEmployeeRepository implements IEmployeeRepository {
         id: id,
       },
       include: {
-        PayStub: true,
+        pay_stubs: true,
       },
     });
 
@@ -92,7 +89,7 @@ export class PrismaEmployeeRepository implements IEmployeeRepository {
       skip: args.skip || undefined,
       include: {
         user: true,
-        PayStub: true,
+        pay_stubs: true,
       },
     });
 

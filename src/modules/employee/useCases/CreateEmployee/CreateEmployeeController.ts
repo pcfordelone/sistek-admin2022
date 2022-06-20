@@ -1,14 +1,17 @@
 import { Request, Response } from "express";
-import { CreateEmployeeUseCase } from "./CreateEmployeeUseCase";
+import { container, injectable } from "tsyringe";
 
+import { CreateEmployeeUseCase } from "@employee/useCases";
+
+@injectable()
 export class CreateEmployeeController {
-  constructor(private createEmployeeUseCase: CreateEmployeeUseCase) {}
-
   async handle(request: Request, response: Response) {
     const data = request.body;
 
+    const createEmployeeUseCase = container.resolve(CreateEmployeeUseCase);
+
     try {
-      const result = await this.createEmployeeUseCase.execute(data);
+      const result = await createEmployeeUseCase.execute(data);
 
       return response.status(200).json(result);
     } catch (error) {

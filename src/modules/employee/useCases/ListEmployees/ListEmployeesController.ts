@@ -1,15 +1,18 @@
 import { Request, Response } from "express";
-import { IEmployee } from "../../core/domain/IEmployee";
-import { ListEmployeesUseCase } from "./ListEmployeesUseCase";
+import { injectable, container } from "tsyringe";
 
+import { IEmployee } from "@employee/core";
+import { ListEmployeesUseCase } from "@employee/useCases";
+
+@injectable()
 export class ListEmployeesController {
-  constructor(private listEmployeesUseCase: ListEmployeesUseCase) {}
-
   async handle(request: Request, response: Response) {
     const args = request.query;
 
+    const listEmployeesUseCase = container.resolve(ListEmployeesUseCase);
+
     try {
-      const result: IEmployee[] = await this.listEmployeesUseCase.execute(args);
+      const result: IEmployee[] = await listEmployeesUseCase.execute(args);
 
       return response.status(200).json(result);
     } catch (error) {

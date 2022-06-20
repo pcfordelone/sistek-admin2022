@@ -1,15 +1,18 @@
 import { Request, Response } from "express";
-import { UpdateEmployeeUseCase } from "./UpdateEmployeeUseCase";
+import { injectable, container } from "tsyringe";
 
+import { UpdateEmployeeUseCase } from "@employee/useCases";
+
+@injectable()
 export class UpdateEmployeeController {
-  constructor(private updateEmployeeUseCase: UpdateEmployeeUseCase) {}
-
   async handle(request: Request, response: Response) {
     const data = request.body;
     const id: string = request.params.id;
 
+    const updateEmployeeUseCase = container.resolve(UpdateEmployeeUseCase);
+
     try {
-      const result = await this.updateEmployeeUseCase.execute(id, data);
+      const result = await updateEmployeeUseCase.execute(id, data);
 
       return response.status(200).json(result);
     } catch (error) {

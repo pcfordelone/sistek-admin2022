@@ -1,8 +1,14 @@
-import { deleteFile } from "../../../../multer";
-import { IEmployeeRepository } from "../../core/repository/IEmployeeRepository";
+import { inject, injectable } from "tsyringe";
 
+import { deleteFile } from "@config/multer";
+import { IEmployeeRepository } from "@employee/core";
+
+@injectable()
 export class AddEmployeeAvatarUseCase {
-  constructor(private employeeRepository: IEmployeeRepository) {}
+  constructor(
+    @inject("EmployeeRepository")
+    private employeeRepository: IEmployeeRepository
+  ) {}
 
   async execute(employee_id: string, avatar_url: string) {
     const employee = await this.employeeRepository.findEmployeeById(

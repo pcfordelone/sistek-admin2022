@@ -1,4 +1,4 @@
-import { IEmployee } from "../domain/IEmployee";
+import { IEmployee } from "@employee/core";
 
 export type TFindManyEmployeesArgs = {
   take?: number;

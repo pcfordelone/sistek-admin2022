@@ -1,7 +1,13 @@
-import { IEmployeeRepository } from "../../core/repository/IEmployeeRepository";
+import { inject, injectable } from "tsyringe";
 
+import { IEmployeeRepository } from "@employee/core";
+
+@injectable()
 export class FindEmployeeByEmailUseCase {
-  constructor(private employeeRepository: IEmployeeRepository) {}
+  constructor(
+    @inject("EmployeeRepository")
+    private employeeRepository: IEmployeeRepository
+  ) {}
 
   async execute(email: string) {
     const employee = await this.employeeRepository.findEmployeeByEmail(email);
