@@ -1,6 +1,6 @@
+import { IUser } from "@user/core";
+import { IUserRepository, TFindManyUsersArgs } from "@user/core";
 import { prismaClient } from "@config/prisma";
-import { IUser } from "../domain/IUser";
-import { IUserRepository, TFindManyUsersArgs } from "./IUserRepository";
 
 export class PrismaUserRepository implements IUserRepository {
   async findUserById(id: string): Promise<Omit<IUser, "password">> {

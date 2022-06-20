@@ -1,18 +1,19 @@
-import { User } from "@prisma/client";
 import { Request, Response } from "express";
-import { UpdateAdminUserUseCase } from "./UpdateAdminUserUseCase";
-import { IUser } from "../../core/domain/IUser";
+import { container } from "tsyringe";
+
+import { UpdateAdminUserUseCase } from "@user/useCases";
+import { IUser } from "@user/core";
 
 export class UpdateAdminUserController {
-  constructor(private updateAdminUserUseCase: UpdateAdminUserUseCase) {}
-
   async handle(request: Request, response: Response): Promise<Response> {
     const { name, email } = request.body;
     const id: string = request.params.id;
 
+    const updateAdminUserUseCase = container.resolve(UpdateAdminUserUseCase);
+
     try {
       const result: Omit<IUser, "password"> =
-        await this.updateAdminUserUseCase.execute(id, {
+        await updateAdminUserUseCase.execute(id, {
           name,
           email,
         });

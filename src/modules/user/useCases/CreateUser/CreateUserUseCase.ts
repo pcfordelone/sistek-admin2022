@@ -1,11 +1,17 @@
-import { IUserRepository } from "../../core/repository/IUserRepository";
-import { IUser } from "../../core/domain/IUser";
-import { UserEntity } from "../../core/domain/User";
-import { ICreateUserRequest } from "./CreateUserDTO";
 import bcrypt from "bcrypt";
+import { inject, injectable } from "tsyringe";
 
+import { IUserRepository } from "@user/core";
+import { IUser } from "@user/core";
+import { UserEntity } from "@user/core";
+import { ICreateUserRequest } from "./CreateUserDTO";
+
+@injectable()
 export class CreateUserUseCase {
-  constructor(private userRepository: IUserRepository) {}
+  constructor(
+    @inject("UserRepository")
+    private userRepository: IUserRepository
+  ) {}
 
   async execute(data: ICreateUserRequest) {
     const userAlreadyExists: IUser = await this.userRepository.findUserByEmail(

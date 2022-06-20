@@ -1,11 +1,14 @@
-import {
-  IUserRepository,
-  TFindManyUsersArgs,
-} from "../../core/repository/IUserRepository";
-import { IUser } from "../../core/domain/IUser";
+import { inject, injectable } from "tsyringe";
 
+import { IUserRepository, TFindManyUsersArgs } from "@user/core";
+import { IUser } from "@user/core";
+
+@injectable()
 export class ListAdminUsersUseCase {
-  constructor(private userRepository: IUserRepository) {}
+  constructor(
+    @inject("UserRepository")
+    private userRepository: IUserRepository
+  ) {}
 
   async execute(args?: TFindManyUsersArgs) {
     const result: Omit<IUser, "password">[] =

@@ -1,16 +1,18 @@
 import { Request, Response } from "express";
-import { ListAdminUsersUseCase } from "./ListAdminUsersUseCase";
-import { IUser } from "../../core/domain/IUser";
+import { container } from "tsyringe";
+
+import { ListAdminUsersUseCase } from "@user/useCases";
+import { IUser } from "@user/core";
 
 export class ListAdminUsersController {
-  constructor(private listAdminUsersUseCase: ListAdminUsersUseCase) {}
-
   async handle(request: Request, response: Response): Promise<Response> {
     const args = request.query;
 
+    const listAdminUsersUseCase = container.resolve(ListAdminUsersUseCase);
+
     try {
       const result: Omit<IUser, "password">[] =
-        await this.listAdminUsersUseCase.execute(args);
+        await listAdminUsersUseCase.execute(args);
 
       return response.status(200).json(result);
     } catch (error) {

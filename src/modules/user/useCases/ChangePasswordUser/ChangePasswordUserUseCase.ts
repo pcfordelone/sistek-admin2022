@@ -1,14 +1,19 @@
-import { IUserRepository } from "../../core/repository/IUserRepository";
-import { IUser } from "../../core/domain/IUser";
+import { IUserRepository } from "@user/core";
+import { IUser } from "@user/core";
 import bcrypt from "bcrypt";
+import { inject, injectable } from "tsyringe";
 
 interface IChangePasswordRequest {
   password: string;
   confirmPassword: string;
 }
 
+@injectable()
 export class ChangePasswordUserUseCase {
-  constructor(private userRepository: IUserRepository) {}
+  constructor(
+    @inject("UserRepository")
+    private userRepository: IUserRepository
+  ) {}
 
   async execute(
     id: string,

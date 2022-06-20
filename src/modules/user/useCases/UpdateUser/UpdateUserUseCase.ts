@@ -1,10 +1,15 @@
-import { IUser } from "../../core/domain/IUser";
-import { IUserRepository } from "../../core/repository/IUserRepository";
+import { inject } from "tsyringe";
+
+import { IUser } from "@user/core";
+import { IUserRepository } from "@user/core";
+import { UserEntity } from "@user/core";
 import { UpdateUserRequest } from "./UpdateUserDTO";
-import { UserEntity } from "../../core/domain/User";
 
 export class UpdateUserUseCase {
-  constructor(private userRepository: IUserRepository) {}
+  constructor(
+    @inject("UserRepository")
+    private userRepository: IUserRepository
+  ) {}
 
   async execute(id: string, { name, email }: UpdateUserRequest) {
     const oldUser: IUser = await this.userRepository.findUserByIdWithPassword(

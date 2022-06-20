@@ -1,4 +1,4 @@
-import { IUser } from "../domain/IUser";
+import { IUser } from "@user/core";
 
 export type TFindManyUsersArgs = {
   take?: number;

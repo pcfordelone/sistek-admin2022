@@ -1,17 +1,21 @@
 import { Request, Response } from "express";
-import { ChangePasswordUserUseCase } from "./ChangePasswordUserUseCase";
-import { IUser } from "../../core/domain/IUser";
+import { container, injectable } from "tsyringe";
 
+import { IUser } from "@user/core";
+import { ChangePasswordUserUseCase } from "@user/useCases";
+
+@injectable()
 export class ChangePasswordUserController {
-  constructor(private changePasswordUserUseCase: ChangePasswordUserUseCase) {}
-
   async handle(request: Request, response: Response) {
     const { password, confirm_password } = request.body;
     const id: string = request.params.id;
 
+    const changePasswordUserUseCase: ChangePasswordUserUseCase =
+      container.resolve(ChangePasswordUserUseCase);
+
     try {
       const result: Omit<IUser, "password"> =
-        await this.changePasswordUserUseCase.execute(id, {
+        await changePasswordUserUseCase.execute(id, {
           password,
           confirmPassword: confirm_password,
         });

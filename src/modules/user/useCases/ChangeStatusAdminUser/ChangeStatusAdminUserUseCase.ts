@@ -1,8 +1,14 @@
-import { UserEntity } from "../../core/domain/User";
-import { IUserRepository } from "../../core/repository/IUserRepository";
+import { inject, injectable } from "tsyringe";
 
+import { UserEntity } from "@user/core";
+import { IUserRepository } from "@user/core";
+
+@injectable()
 export class ChangeStatusAdminUserUseCase {
-  constructor(private userRepository: IUserRepository) {}
+  constructor(
+    @inject("UserRepository")
+    private userRepository: IUserRepository
+  ) {}
 
   async execute(id: string) {
     const user = await this.userRepository.findUserByIdWithPassword(id);

@@ -1,18 +1,21 @@
 import { Request, Response } from "express";
-import { IUser } from "../../core/domain/IUser";
-import { ChangeStatusAdminUserUseCase } from "./ChangeStatusAdminUserUseCase";
+import { container, injectable } from "tsyringe";
 
+import { IUser } from "@user/core";
+import { ChangeStatusAdminUserUseCase } from "@user/useCases";
+
+@injectable()
 export class ChangeStatusAdminUserController {
-  constructor(
-    private changeStatusAdminUserUseCase: ChangeStatusAdminUserUseCase
-  ) {}
-
   async handle(request: Request, response: Response): Promise<Response> {
     const id: string = request.params.id;
 
+    const changeStatusAdminUserUseCase = container.resolve(
+      ChangeStatusAdminUserUseCase
+    );
+
     try {
       const result: Omit<IUser, "password"> =
-        await this.changeStatusAdminUserUseCase.execute(id);
+        await changeStatusAdminUserUseCase.execute(id);
 
       return response.status(200).json(result);
     } catch (error) {

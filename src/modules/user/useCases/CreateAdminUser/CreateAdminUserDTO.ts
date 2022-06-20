@@ -4,5 +4,5 @@ export interface ICreateAdminUserRequest {
   password: string;
   confirm_password: string;
   role: "ADMIN";
-  isActive: true;
+  isActive: boolean;
 }
