@@ -1,17 +1,15 @@
+import "reflect-metadata";
 import express from "express";
 import cors from "cors";
 import path from "path";
 
 import { openRoute } from "./router";
-import { userRoutes } from "./modules/user/useCases/routes";
-import {
-  employeeRoutes,
-  employeesRoutes,
-} from "./modules/employee/useCases/routes";
-import { authRoutes } from "./modules/auth/useCases/routes";
-import { ensureAuthenticated } from "./modules/auth/middlewares/ensureAuthenticated";
-import { ensureIsAdminUser } from "./modules/auth/middlewares/ensureIsAdminUser";
-import { payStubRoutes } from "./modules/pay_stub/useCases/routes";
+import { userRoutes } from "@user/useCases";
+import { employeeRoutes, employeesRoutes } from "@employee/useCases";
+import { payStubRoutes } from "@pay_stub/useCases";
+import { authRoutes } from "@auth/useCases";
+import { ensureAuthenticated } from "@auth/middlewares";
+import { ensureIsAdminUser } from "@auth/middlewares";
 
 const app = express();
 app.use("/files", express.static(path.resolve(__dirname, "../uploads")));
