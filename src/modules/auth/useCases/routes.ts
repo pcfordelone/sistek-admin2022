@@ -1,11 +1,12 @@
-import { Request, Response, Router } from "express";
+import { Router } from "express";
+import { container } from "tsyringe";
 
-import { authenticateController } from "./AuthenticateUser";
+import { AuthenticateUserController } from "@auth/useCases";
 
 const authRoutes: Router = Router();
 
-authRoutes.post("/login", (request: Request, response: Response) => {
-  authenticateController.handle(request, response);
-});
+const authenticateController = container.resolve(AuthenticateUserController);
+
+authRoutes.post("/login", authenticateController.handle);
 
 export { authRoutes };

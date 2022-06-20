@@ -11,6 +11,7 @@
     "emitDecoratorMetadata": true,
     "baseUrl": ".",
     "paths": {
+      "@auth/*": ["src/modules/auth/*"],
       "@user/*": ["src/modules/user/*"],
       "@employee/*": ["src/modules/employee/*"],
       "@pay_stub/*": ["src/modules/pay_stub/*"],

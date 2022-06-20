@@ -1,7 +1,10 @@
 import { sign } from "jsonwebtoken";
-import { IAuthenticateProvider } from "./IAuthenticateProvider";
-import { IUser } from "../../user/core/domain/IUser";
+import { injectable } from "tsyringe";
 
+import { IAuthenticateProvider } from "./IAuthenticateProvider";
+import { IUser } from "@user/core";
+
+@injectable()
 class JWTAuthenticateProvider implements IAuthenticateProvider {
   async authenticate(user: IUser): Promise<string | { error: Error }> {
     const secret: string = process.env.JWT_SECRET;

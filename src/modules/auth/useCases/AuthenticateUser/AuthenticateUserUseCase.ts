@@ -1,10 +1,16 @@
-import { AuthenticateUserRequest } from "./AuthenticateUserDTO";
-import { IUserRepository } from "../../../user/core/repository/IUserRepository";
 import bcrypt from "bcrypt";
-import { IAuthenticateProvider } from "../../providers/IAuthenticateProvider";
+import { inject, injectable } from "tsyringe";
+
+import { AuthenticateUserRequest } from "./AuthenticateUserDTO";
+import { IUserRepository } from "@user/core";
+import { IAuthenticateProvider } from "@auth/providers";
+
+@injectable()
 export class AuthenticateUserUseCase {
   constructor(
+    @inject("UserRepository")
     private userRepository: IUserRepository,
+    @inject("AuthenticateProvider")
     private authenticateProvider: IAuthenticateProvider
   ) {}
 

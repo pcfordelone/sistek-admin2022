@@ -6,6 +6,10 @@ import { IEmployeeRepository } from "@employee/core/repository/IEmployeeReposito
 import { PrismaEmployeeRepository } from "@employee/core/repository/PrismaEmployeeRepository";
 import { IPayStubRepository } from "@pay_stub/core/reposity/IPayStubRepository";
 import { PrismaPayStubRepository } from "@pay_stub/core/reposity/PrismaPayStubRepository";
+import {
+  IAuthenticateProvider,
+  JWTAuthenticateProvider,
+} from "@auth/providers";
 
 container.registerSingleton<IUserRepository>(
   "UserRepository",
@@ -20,4 +24,9 @@ container.registerSingleton<IEmployeeRepository>(
 container.registerSingleton<IPayStubRepository>(
   "PayStubRepository",
   PrismaPayStubRepository
+);
+
+container.registerSingleton<IAuthenticateProvider>(
+  "AuthenticateProvider",
+  JWTAuthenticateProvider
 );

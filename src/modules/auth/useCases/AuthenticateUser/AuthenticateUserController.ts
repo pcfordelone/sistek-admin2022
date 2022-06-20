@@ -1,13 +1,16 @@
 import { Request, Response } from "express";
+import { injectable, container } from "tsyringe";
 import { AuthenticateUserUseCase } from "./AuthenticateUserUseCase";
-export class AuthenticateUserController {
-  constructor(private authenticateUserUseCase: AuthenticateUserUseCase) {}
 
+@injectable()
+export class AuthenticateUserController {
   async handle(request: Request, response: Response) {
     const { email, password } = request.body;
 
+    const authenticateUserUseCase = container.resolve(AuthenticateUserUseCase);
+
     try {
-      const result = await this.authenticateUserUseCase.execute({
+      const result = await authenticateUserUseCase.execute({
         email,
         password,
       });
