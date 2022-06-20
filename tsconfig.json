@@ -7,9 +7,14 @@
     "strict": false,
     "skipLibCheck": true,
     "typeRoots": ["./src/@types", "node_modules/@types"],
-    "baseUrl": "./src",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": ".",
     "paths": {
-      "@config/*": ["config/*"]
+      "@user/*": ["src/modules/user/*"],
+      "@employee/*": ["src/modules/employee/*"],
+      "@pay_stub/*": ["src/modules/pay_stub/*"],
+      "@config/*": ["src/config/*"]
     }
   }
 }
